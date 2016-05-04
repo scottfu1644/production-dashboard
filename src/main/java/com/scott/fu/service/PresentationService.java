@@ -5,16 +5,16 @@ import com.scott.fu.dao.mes.ProductionOrderHeadMapper;
 import com.scott.fu.dao.mes.ProductionOrderStepMapper;
 import com.scott.fu.dao.mes.ProductionOrderStepScrapMapper;
 import com.scott.fu.dao.oee.MachinesDailyMapper;
-import com.scott.fu.dto.DeptStepDTO;
 import com.scott.fu.dto.MachineStepDTO;
-import com.scott.fu.dto.StatusDTO;
 import com.scott.fu.entity.DeptStep;
 import com.scott.fu.entity.MachStep;
 import com.scott.fu.entity.mes.ProductionOrderHead;
 import com.scott.fu.entity.mes.ProductionOrderHeadExample;
 import com.scott.fu.entity.mes.ProductionOrderStep;
 import com.scott.fu.entity.mes.ProductionOrderStepExample;
-import com.scott.fu.entity.oee.*;
+import com.scott.fu.entity.oee.MachinesDaily;
+import com.scott.fu.entity.oee.MachinesDailyExample;
+import com.scott.fu.entity.oee.MaterialTAndMHistory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -244,49 +244,6 @@ public class PresentationService {
         }
         return map;
     }
-    /*@Transactional(propagation = Propagation.NOT_SUPPORTED,readOnly = true)
-    public Map<String,List<MachineStepDTO>> getDepartmentStepList() {
-        List<MachStep> machStepList = equipmentDao.queryMachineStepMap();
-        Map<String,List<MachineStepDTO>> machineStepMap = new HashMap<String, List<MachineStepDTO>>();
-        List<MachineStepDTO> machineStepDTOList = null;
-        MachineStepDTO machineStepDTO = null;
-
-        for(MachStep machStep : machStepList) {
-            if(machineStepMap.get(machStep.getDepartment()) == null) {
-                machineStepDTOList = new ArrayList<MachineStepDTO>();
-                machineStepDTO = new MachineStepDTO();
-                List<String> machineList = new ArrayList<String>();
-                List<String> mCodesList =  new ArrayList<String>();
-
-                for(String m : machStep.getMachines().split(",")) {
-                    machineList.add(m);
-                }
-                machineStepDTO.setMachines(machineList);
-                machineStepDTO.setOutput(
-                        "FP".equals(machStep.getoUTPUT_FORM()) ? "Full Panel" :
-                                "QP".equals(machStep.getoUTPUT_FORM()) ? "Quarter Panel" :
-                                        "Lot".equals(machStep.getoUTPUT_FORM()) ? "Lot" : "Units"
-                );
-                machineStepDTO.setWip(
-                        "FP".equals(machStep.getwIP_FORM()) ? "Full Panel" :
-                                "QP".equals(machStep.getwIP_FORM()) ? "Quarter Panel" :
-                                        "Lot".equals(machStep.getwIP_FORM()) ? "Lot" : "Units"
-                );
-                machineStepDTO.setTarget(new Float(machStep.gettARGET()));
-                mCodesList.add(machStep.getmCode());
-                machineStepDTO.setmCode(mCodesList);
-                machineStepMap.put(machStep.gettITLE(), machineStepDTO);
-            } else {
-                machineStepDTO = machineStepMap.get(machStep.gettITLE());
-                for(String m : machStep.getMachines().split(",")) {
-                    machineStepDTO.getMachines().add(m);
-                }
-                machineStepDTO.getmCode().add(machStep.getmCode());
-                machineStepMap.put(machStep.gettITLE(),machineStepDTO);
-            }
-        }
-        return null;
-    }*/
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED,readOnly = true)
     public Object queryMachineStepStatus(String title) {
