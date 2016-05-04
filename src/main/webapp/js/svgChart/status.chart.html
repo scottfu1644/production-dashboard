@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        * {
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
+    <script src="snap.svg-min.js"></script>
+    <script type="text/javascript" src="../timeline_rehearsal.js"></script>
+    <script type="text/javascript">
+        var pathName = window.document.location.pathname;
+        var curWwwPath = window.document.location.href;
+        var pos = curWwwPath.indexOf(pathName);
+        var localhostPath = curWwwPath.substring(0, pos);
+        var _css={'border':'0px',
+            'width':'100px',
+            'height':'220px','padding-top':'10px','margin-top':'5px',
+            'float':'left'};
+        $(function(){
+            var start = '2016-04-09 07:00:00';
+            var end = '2016-04-09 19:00:00';
+            var param_eqiup = 'DNV101,DNV102,DNV103,TNV101,TNV102,TNV103';
+            /*
+
+            var url = localhostPath + '/Dashboard/api/metroEquip/status/false?machines='+param_eqiup
+                    +'&startTime='+ parseDateString('2016-04-08 07:00:00','-',':').valueOf()
+                    +'&endTime='+ parseDateString('2016-04-08 19:00:00','-',':').valueOf();*/
+
+            $.getJSON('raw.json', function(data) {
+                var stat = $('.content');
+                stat.css({'border':'0px','width':'835px','height':'200px','padding-top':'10px'
+                    ,'float':'left'});
+                var series = [];
+                var statusDivs = [];
+                $.each(data, function(i, elem){
+                    series.push({
+                        name:elem.equipmentName,
+                        currentState:elem.currentStatus,
+                        data:elem.machinesDailyList
+                    });
+                });
+                var machineStatusColor = {
+                    'Productive':'#02d216',
+                    'NonScheduled':'#ff2dd0',
+                    'Standby':'yellow',
+                    'Engineering':'blue',
+                    'ScheduledDown':'#fb9c9c',
+                    'UnscheduledDown':'red'
+                };
+                var opt = {
+                    startD: start,
+                    endD:end,
+                    lineColor: '#df8505',
+                    textColor: '#0E1570',
+                    maxBarCount: 4,
+                    majorTicks: 1,
+                    machineSeries : series,
+                    machineStatusColor:machineStatusColor,
+                    dataProperties: {
+                        dataSource: localhostPath + '/Dashboard/api/metroEquip/status/false?machines='+param_eqiup,
+                        timeInterval: 15 // seconds
+                    }
+                };
+                var statusSvg = stat.equipTimeLine(opt);
+                console.log(statusSvg);
+                $('.status').css(_css).append(statusSvg);
+
+            });
+            /*ajaxRequest_no_error(url,'get', 'json', function(data){});*/
+        });
+    </script>
+</head>
+<body>
+    <div class="frame">
+        <div class="status">
+        </div>
+        <div class="content"></div>
+    </div>
+</body>
+</html>

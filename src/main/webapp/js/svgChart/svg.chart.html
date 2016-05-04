@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Snap SVG Demo</title>
+    <script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
+    <script src="snap.svg-min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var svg = $('<svg id="svg_my"><svg>');
+            var circle;
+            var snapSvg = Snap(svg[0]);
+
+            var paper = snapSvg.paper;
+            var c = paper.circle(200,100,1).attr({fill:'#5379FF'});
+
+            var rect = paper.rect(5, 5, 0, 50).attr({fill: 'yellow','stroke-width':0.5});
+            var rect1 = paper.rect(85, 5, 0, 50).attr({fill: 'red','stroke-width':0.5});
+
+            var g = paper.g(rect,rect1);
+
+            rect.animate({'stroke':'black',width:80},500);
+            rect1.animate({'stroke':'black',width:100},500);
+//            g.animate();
+            $('#content').append(svg);
+        });
+    </script>
+</head>
+<body>
+    <div id="content" style="margin: 0 auto;width: 400px;height: 220px;background-color: #91ff20;line-height: 50%">
+
+    </div>
+</body>
+</html>

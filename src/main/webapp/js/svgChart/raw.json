@@ -1,0 +1,534 @@
+
+
+[
+    {
+        "interval": null,
+        "equipmentName": "DNV101",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 28767955,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV101",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 58754,
+                    "createtime": 1460158846147,
+                    "createTimeString": "2016-04-09 07:40:46",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767649,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV101",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 1426,
+                    "createtime": 1460157420563,
+                    "createTimeString": "2016-04-09 07:17:00",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767956,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 1927,
+                    "createtime": 1460155493610,
+                    "createTimeString": "2016-04-09 06:44:53",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 3,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    },
+    {
+        "interval": null,
+        "equipmentName": "DNV102",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 28766981,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV102",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 58703,
+                    "createtime": 1460158897893,
+                    "createTimeString": "2016-04-09 07:41:37",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28766320,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV102",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 1225,
+                    "createtime": 1460157672350,
+                    "createTimeString": "2016-04-09 07:21:12",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28698913,
+                    "date": "2016-04-08 00:00:00.0",
+                    "resource": "DNV102",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 8030,
+                    "createtime": 1460123170077,
+                    "createTimeString": "2016-04-08 21:46:10",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 3,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    },
+    {
+        "interval": null,
+        "equipmentName": "DNV103",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 1619445,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV103",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 57926,
+                    "createtime": 1460159674737,
+                    "createTimeString": "2016-04-09 07:54:34",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619506,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV103",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 2,
+                    "createtime": 1460159672957,
+                    "createTimeString": "2016-04-09 07:54:32",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619508,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV103",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 740,
+                    "createtime": 1460158932397,
+                    "createTimeString": "2016-04-09 07:42:12",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619605,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV103",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 1302,
+                    "createtime": 1460157630520,
+                    "createTimeString": "2016-04-09 07:20:30",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619505,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "DNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 5303,
+                    "createtime": 1460152327150,
+                    "createTimeString": "2016-04-09 05:52:07",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 2,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    },
+    {
+        "interval": null,
+        "equipmentName": "TNV101",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 28767742,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 56988,
+                    "createtime": 1460160612683,
+                    "createTimeString": "2016-04-09 08:10:12",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767657,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 2,
+                    "createtime": 1460160610697,
+                    "createTimeString": "2016-04-09 08:10:10",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767635,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 100,
+                    "createtime": 1460160510720,
+                    "createTimeString": "2016-04-09 08:08:30",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767637,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 48,
+                    "createtime": 1460160462640,
+                    "createTimeString": "2016-04-09 08:07:42",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767750,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 2523,
+                    "createtime": 1460157939937,
+                    "createTimeString": "2016-04-09 07:25:39",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767662,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 2,
+                    "createtime": 1460157937843,
+                    "createTimeString": "2016-04-09 07:25:37",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767639,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 25,
+                    "createtime": 1460157912903,
+                    "createTimeString": "2016-04-09 07:25:12",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767857,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 421,
+                    "createtime": 1460157491283,
+                    "createTimeString": "2016-04-09 07:18:11",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767660,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 75,
+                    "createtime": 1460157416470,
+                    "createTimeString": "2016-04-09 07:16:56",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767640,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 25,
+                    "createtime": 1460157391010,
+                    "createTimeString": "2016-04-09 07:16:31",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767728,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 1,
+                    "createtime": 1460157390290,
+                    "createTimeString": "2016-04-09 07:16:30",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767752,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV101",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 2727,
+                    "createtime": 1460154663987,
+                    "createTimeString": "2016-04-09 06:31:03",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 2,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    },
+    {
+        "interval": null,
+        "equipmentName": "TNV102",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 28767687,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV102",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 58450,
+                    "createtime": 1460159150423,
+                    "createTimeString": "2016-04-09 07:45:50",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28768034,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV102",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 1112,
+                    "createtime": 1460158038923,
+                    "createTimeString": "2016-04-09 07:27:18",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767676,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV102",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 20,
+                    "createtime": 1460158018497,
+                    "createTimeString": "2016-04-09 07:26:58",
+                    "durationMilli": null
+                },
+                {
+                    "id": 28767957,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV102",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 11793,
+                    "createtime": 1460146225630,
+                    "createTimeString": "2016-04-09 04:10:25",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 3,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    },
+    {
+        "interval": null,
+        "equipmentName": "TNV103",
+        "isNightShift": false,
+        "machinesDailyList":
+            [
+                {
+                    "id": 1619655,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 56922,
+                    "createtime": 1460160678530,
+                    "createTimeString": "2016-04-09 08:11:18",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619382,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 2,
+                    "createtime": 1460160676797,
+                    "createTimeString": "2016-04-09 08:11:16",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619373,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "ProductionReadinessCheck",
+                    "duration": 21,
+                    "createtime": 1460160655950,
+                    "createTimeString": "2016-04-09 08:10:55",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619482,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "ScheduledDown",
+                    "statereason": "PMUnderMaintenance",
+                    "duration": 1491,
+                    "createtime": 1460159164797,
+                    "createTimeString": "2016-04-09 07:46:04",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619602,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 42,
+                    "createtime": 1460159122233,
+                    "createTimeString": "2016-04-09 07:45:22",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619386,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 14,
+                    "createtime": 1460159108857,
+                    "createTimeString": "2016-04-09 07:45:08",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619656,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 1259,
+                    "createtime": 1460157849253,
+                    "createTimeString": "2016-04-09 07:24:09",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619381,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 1,
+                    "createtime": 1460157848897,
+                    "createTimeString": "2016-04-09 07:24:08",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619380,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 1,
+                    "createtime": 1460157847207,
+                    "createTimeString": "2016-04-09 07:24:07",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619392,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 32,
+                    "createtime": 1460157815033,
+                    "createTimeString": "2016-04-09 07:23:35",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619604,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Standby",
+                    "statereason": "Setup",
+                    "duration": 96,
+                    "createtime": 1460157719543,
+                    "createTimeString": "2016-04-09 07:21:59",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619647,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 1,
+                    "createtime": 1460157718763,
+                    "createTimeString": "2016-04-09 07:21:58",
+                    "durationMilli": null
+                },
+                {
+                    "id": 1619648,
+                    "date": "2016-04-09 00:00:00.0",
+                    "resource": "TNV103",
+                    "state": "Productive",
+                    "statereason": "RegularProduction",
+                    "duration": 3082,
+                    "createtime": 1460154636260,
+                    "createTimeString": "2016-04-09 06:30:36",
+                    "durationMilli": null
+                }
+            ],
+        "currentStatus": 2,
+        "timeScale": null,
+        "durationMiliSec": null,
+        "beginTime": "2016-04-09 07:00:00",
+        "endTime": "2016-04-09 19:00:00",
+        "beginTimeMilli": 1460156400000,
+        "endTimeMilli": 1460199600000
+    }
+]

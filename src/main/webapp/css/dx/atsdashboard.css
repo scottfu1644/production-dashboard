@@ -1,0 +1,119 @@
+﻿
+.dashboardHeader {
+        font-size: 22px;
+    font-family: "Segoe UI Light","Helvetica Neue Light","Segoe UI","Helvetica Neue","Trebuchet MS",Verdana;
+    font-weight: 200;
+    fill: rgb(35, 35, 35);
+    cursor: default;
+}
+
+.dashboardTableHeader {
+        font-size: 19px;
+    font-family: "Segoe UI Light","Helvetica Neue Light","Segoe UI","Helvetica Neue","Trebuchet MS",Verdana;
+    font-weight: 300;
+    fill: rgb(35, 35, 35);
+    cursor: default;
+}
+        .Engineering {
+            background-color: blue;
+        }
+
+        .Standby {
+            background-color: yellow;
+        }
+
+        .Productive {
+            background-color: green;
+        }
+
+        .ScheduledDown {
+            background-color: pink;
+        }
+
+        .UnScheduledDown {
+            background-color: red;
+        }
+
+        .duration {
+            height: 100%;
+            float: left;
+            color: none;
+        }
+
+        .Resource {
+            float: left;
+            background-color: #f9f9f9;
+            border: solid 1px;
+            border-color: #808080;
+            height:23px;
+            width:750px;
+        }
+
+        .tableColResourceName {
+            width: 100px;
+            text-align:center;
+        }
+
+        .tableColResourceState {
+            width: auto;
+        }
+
+        #oeeDiv table td {
+            padding:0px;
+            margin:0px;
+            
+        }
+        .resourceTitle {
+            color: #0094ff;
+            text-align:center;
+            float:left;
+        }
+
+        .resourceTitleText {
+            color: #0094ff;
+            float: left;
+            width:72px;
+            text-align: center;
+            padding-right:4px;
+        }
+
+        .resourceState {
+            width: 22.4px;
+            height: 22.4px;
+            float: left;
+            border-radius: 11.2px;
+            margin-left:20%;
+        }
+        
+        .TimeScaleHour {
+            float: left;
+        }
+        .TimeScale {
+            border-left: solid 1px #808080;
+            border-bottom: solid 1px #808080;
+            font-size:2px;
+            height:10px;
+        }
+.TimeText {
+    font-size:10px;
+    text-align: left;
+}
+        .SummaryContainer {
+            font-weight: bold;
+            color: gray;
+        }
+
+#resourceStateSample {
+    padding-left:5%;
+}
+
+
+        .goodFormat{
+            background-color: lime;
+            color:black;
+        }
+
+        .notGoodFormat {
+            background-color: red;
+            color: white;
+        }

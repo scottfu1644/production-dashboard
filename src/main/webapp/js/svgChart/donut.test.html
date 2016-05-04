@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SVG Donut Chart Demo</title>
+    <style>
+        body {
+            color: #333;
+            background: transparent;
+        }
+
+        .frame {
+            width: 40%;
+            border-radius: 4px;
+            background: #ededed;
+            padding: 20px;
+            margin: 150px auto;
+        }
+
+        body .frame .content h1 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: white;
+            font-weight: 100;
+            text-transform: uppercase;
+        }
+
+        #svg {
+            width: 500px;
+            height: 300px;
+        }
+
+        .content {
+            text-align: center;
+        }
+    </style>
+
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src='snap.svg-min.js'></script>
+
+    <script>
+        var stepStatus = [
+            {
+                value: 25,
+                label: 'Hold',
+                color: '#3399FF'
+            },
+            {
+                value: 35,
+                label: 'Queued',
+                color: '#FFC575'
+            },
+            {
+                value: 24,
+                label: 'In Process',
+                color: '#99CC00'
+            },
+            {
+                value: 16,
+                label: 'Processed',
+                color: '#FF3300'
+            }
+        ];
+        console.log($('#svg'));
+        console.log();
+    </script>
+
+</head>
+
+<body>
+<div class="frame">
+    <div class="content">
+        <svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script src="svg-donut-chart-framework.js"></script>
+
+
+
+
+

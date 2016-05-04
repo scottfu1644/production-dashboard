@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10;" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<!--<meta http-equiv="refresh" content="30">-->
+
+<title></title>
+<link href="../css/common.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/bootstrap/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/icon.css">
+<link href="../css/HoldOn.css" rel="stylesheet">
+
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/jq_easy_ui/jquery.easyui.min.js"></script>
+
+<script src="../js/svgChart/snap.svg-min.js"></script>
+<script src="../js/svgChart/svg-donut-chart.js"></script>
+
+<script type="text/javascript" src="../js/local.js"></script>
+<script type="text/javascript" src="../js/timeline.js"></script>
+<script type="text/javascript" src="../js/json2.js"></script>
+<script type="text/javascript" src="../js/HoldOn.js"></script>
+
+<script type="text/javascript" src="../js/dx/globalize/globalize.js"></script>
+<script type="text/javascript" src="../js/dx/dx.chartjs.js"></script>
+<script type="text/javascript" src="../js/dx/dx.webappjs.js"></script>
+
+<script type="text/javascript">
+
+var pathName = window.document.location.pathname;
+var curWwwPath = window.document.location.href;
+var pos = curWwwPath.indexOf(pathName);
+var localhostPath = curWwwPath.substring(0, pos);
+var _shift = '';
+var _date = '';
+var _combos = [];
+var _mapDT;
+var _combosDT = [];
+var _combos = [];
+var _deptMap;
+var _title,_dept;
+var timer;
+var Combo = function(id,text,selected) {
+    this.id = id;
+    this.text = text;
+    if(selected) {
+        this.selected = selected;
+    }
+}
+
+$(function(){
+    /*$('#btnOpen').click(function(){
+     HoldOn.open(options);
+     });
+     $('#btnClose').click(function(){
+     HoldOn.close();
+     });
+     */
+    $.support.cors = true;
+    // initialized step
+    _title = getURLParameter('title') === null ? 'PRF' : getURLParameter('title');
+    console.log(_title + ">>>>>On load");
+    _dept = getURLParameter('dept') === null ? '' : getURLParameter('dept');
+    _shift = getURLParameter('shift') === null ? 'Daytime' : getURLParameter('shift');
+    _date = getURLParameter('date') === null ? '' : getURLParameter('date');
+
+    var urlMap = localhostPath + '/Dashboard/api/equipStep/dtDaily/machinStepMap';
+    var urlDeptStepMap = localhostPath + '/Dashboard/api//equipStep/dtDaily/deptTitleMap';
+
+    ajaxRequest(urlMap,'GET', 'JSON', function(machinesStepMap){
+        ajaxRequest(urlDeptStepMap,'GET', 'JSON', function(deptMap){
+            _deptMap = deptMap;
+
+            var combo;
+            for(var key in deptMap) {
+                if(key === 'Plating') {
+                    combo = new Combo(key,key,true);
+
+                    $.each(deptMap[key],function(i,elem){
+                        if(elem === _title) {
+                            var _combo = new Combo(elem,elem,true);
+                        } else {
+                            var _combo = new Combo(elem,elem);
+                        }
+                        _combos.push(_combo);
+                    });
+
+                } else {
+                    combo = new Combo(key,key);
+                }
+
+                _combosDT.push(combo);
+            }
+            for(var key in machinesStepMap) {
+
+                if(key === _title) {
+                    combo = new Combo(key,key,true);
+                } else {
+                    combo = new Combo(key,key);
+                }
+                _combos.push(combo);
+            }
+            init(_title,machinesStepMap);
+        });
+
+    });
+});
+
+//-----------------------refresh screen--------------------------------
+function getURLParameter(name) {
+    return decodeURIComponent(
+            (new RegExp('[?|&]' + name +
+                    '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+}
+
+function resetTimer(url) {
+    console.log(url);
+
+   if(!timer) {
+       console.log('!Timer');
+       timer = setInterval(function() {
+            location.href = url;
+       },10 * 1000);
+   } else {
+       console.log('Timer');
+       window.clearInterval(timer);
+       timer = window.setInterval(function() {
+           location.href = url;
+       },10 * 1000);
+   }
+}
+//-----------------------refresh screen--------------------------------
+
+function init(title,machinesStepMap) {
+
+    var _now = new Date();
+    var _onText = '';
+    var _offText = '';
+    var _on_style;
+    var _off_style;
+    if(_now.getHours() >= 7 && _now.getHours() < 19) {
+        _onText = 'Daytime';
+        _offText = 'Night';
+        _on_style = {'background':'#ffffff none repeat scroll 0 0','color':'#000D64','font-size':'15px'};
+        _off_style = {'background-color':'#000D64','color':'#ffffff','font-size':'15px'};
+    } else if(_now.getHours() < 7 &&  _now.getHours() >= 0) {
+        _onText = 'Night';
+        _offText = 'Daytime';
+        _on_style = {'background':'#000D64 none repeat scroll 0 0','color':'#ffffff','font-size':'15px'};
+        _off_style = {'background-color':'#ffffff','color':'#000D64','font-size':'15px'};
+    } else if(_now.getHours() >= 19 && _now.getHours() < 24){
+        _onText = 'Night';
+        _offText = 'Daytime';
+        _on_style = {'background':'#000D64 none repeat scroll 0 0','color':'#ffffff','font-size':'15px'};
+        _off_style = {'background-color':'#ffffff','color':'#000D64','font-size':'15px'};
+    } else {
+        _onText = 'Daytime';
+        _offText = 'Night';
+        _on_style = {'background':'#ffffff none repeat scroll 0 0','color':'#000D64','font-size':'15px'};
+        _off_style = {'background-color':'#000D64','color':'#ffffff','font-size':'15px'};
+    }
+
+    _shift = _onText;
+
+    var step = $('#combo_steps').combobox({
+        data:_combos,
+//        method:'get',
+        valueField:'id',
+        textField:'text',
+        onSelect: function(option){
+            var _title = option.id;
+            var _now = new Date();
+            // refresh charts
+            showStatusChart(_title,machinesStepMap,_now, _date, _shift);
+            showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift);
+            showLastShift(_title,machinesStepMap,_now,_date,_shift);
+            showDonutLastHourStatus(_title);
+            var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+                    + _title +'&date='
+                    +_date + '&shift='
+                    +_shift;
+            console.log(url)
+            resetTimer(url);
+        }
+    });
+
+    var department = $('#combo_departments').combobox({
+        data:_combosDT,
+        valueField:'id',
+        textField:'text',
+        onSelect: function(option){
+            var _department = option.id;
+            _combos = [];
+            _combos.push(new Combo('----','----',true));
+            $.each(_deptMap[_department],function(i,elem){
+                var newCombo;
+                newCombo = new Combo(elem,elem);
+               /* if(i === 0) {
+                    newCombo = new Combo(elem,elem,true);
+                } else {
+                    newCombo = new Combo(elem,elem);
+                }*/
+
+                _combos.push(newCombo);
+            });
+            step.combobox('clear').combobox({
+                data:_combos,
+                valueField:'id',
+                textField:'text',
+                onSelect: function(opt) {
+                    if(opt.id != '----') {
+                        var _now = new Date();
+                        var _title = opt.id;
+                        showStatusChart(_title,machinesStepMap,_now, _date, _shift);
+                        showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift);
+                        showLastShift(_title,machinesStepMap,_now,_date,_shift);
+                        showDonutLastHourStatus(_title);
+
+                        var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+                            + _title +'&date='
+                            +_date + '&shift='
+                            +_shift;
+                        console.log(url)
+                        resetTimer(url);
+                    }
+                }
+            });
+        }
+    });
+
+    $('#switch_day_night').switchbutton({
+        checked: true,
+        onText:_onText,offText:_offText,
+        onChange: function(checked){
+            var _selectDate = $('.datebox .textbox-value').val();
+            var _title = $(".combo input[name='steps']").val();
+            var _now = new Date();
+            if(!checked) {
+                if(_onText === 'Night') {
+                    _shift = 'Daytime';
+                } else {
+                    _shift = 'Night';
+                }
+            } else {
+                if(_onText === 'Night') {
+                    _shift = 'Night';
+                } else {
+                    _shift = 'Daytime';
+                }
+            }
+
+            showStatusChart(_title,machinesStepMap,_now, _date, _shift);
+
+            showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift) ;
+
+            showLastShift(_title, machinesStepMap,_now,_date,_shift);
+
+            showDonutLastHourStatus(_title);
+
+            var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+                    + _title +'&date='
+                    +_date + '&shift='
+                    +_shift;
+            console.log(url);
+            resetTimer(url);
+
+        }
+    });
+    $('.switchbutton-on').css(_on_style);
+    $('.switchbutton-off').css(_off_style);
+
+
+    $('#date_box').datebox({
+        onSelect: function(date){
+            var _selectDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+                    + ' 00:00:00';
+            var d = parseDateString(_selectDate,'-',':');
+            _date = d;
+            var _title = $(".combo input[name='steps']").val();
+            var _now = new Date();
+            showStatusChart(_title,machinesStepMap,_now, _date, _shift);
+
+            showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift) ;
+
+            showLastShift(_title, machinesStepMap,_now,_date,_shift);
+
+            showDonutLastHourStatus(_title);
+
+            var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+                    + _title +'&date='
+                    +_date + '&shift='
+                    +_shift;
+            console.log(url)
+            resetTimer(url);
+
+        }
+    });
+
+    // 1. show status chart
+    showStatusChart(title,machinesStepMap,_now,_date,_shift);
+    // 2. show WIP & track out Chart
+    showWIPAndOutputChart(title,machinesStepMap,_now,_date,_shift) ;
+    // 3. Last shift summary
+    showLastShift(title, machinesStepMap,_now,_date,_shift);
+    // 4. Last Hour Status donut chart
+    showDonutLastHourStatus(title);
+
+    var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+            + title +'&date='
+            +_date + '&shift='
+            +_shift;
+    console.log(url)
+    resetTimer(url);
+
+
+}
+
+function showLastShift(title,machinesStepMap,_now,_date,_shift) {
+    var timeScale = defineTimeScale(_now, _date, _shift);
+    var url = localhostPath + '/Dashboard/api/equipStep/dtDaily/shiftSummary/' + title
+            +'?startTime='+ timeScale.lastBeginTimeMilli
+            +'&endTime='+ timeScale.lastEndTimeMilli;
+
+    var lastShiftTarget = 0;
+    var lastShiftAct = 0;
+
+    ajaxRequest(url,'GET','JSON',function(data){
+        $.each(data, function(i, elem){
+            lastShiftAct += elem.ActualOp;
+            lastShiftTarget += elem.Target;
+        });
+        var d = parseFloat(parseFloat(lastShiftAct)/parseFloat(lastShiftTarget) * 100).toFixed(2);
+        if(d >= 80) {
+            $('#last_percentage').css({'border':'0.5px solid',
+                'margin-top':'0.5px',
+                'background-color':'#02d216'})
+                    .html(d+ '%');
+            $('#last_act_target').css({'border':'0.5px solid',
+                'margin-top':'0.5px',
+                'background-color':'#02d216'})
+                    .html(lastShiftAct + '/' + lastShiftTarget);
+        } else {
+            $('#last_percentage').css({'border':'0.5px solid',
+                'margin-top':'0.5px',
+                'background-color':'#FF4500'})
+                    .html(d + '%');
+            $('#last_act_target').css({'border':'0.5px solid',
+                'margin-top':'0.5px',
+                'background-color':'#FF4500'})
+                    .html(lastShiftAct + '/' + lastShiftTarget);
+        }
+    });
+}
+function showStatusChart(title, machinesStepMap, now, date, shift) {
+    var param_eqiup = '';
+    $("#title_mtw").html(title + '&nbsp;Hourly&nbsp;Output&nbsp;&&nbsp;WIP');
+    $.each(machinesStepMap[title].machines, function(i, elem){
+        param_eqiup+=elem+','
+    });
+    console.log(date +'.........in status chart');
+    var timeScale = defineTimeScale(now, date, shift);
+    if(timeScale.tips !== 'GET!') {
+        return timeScale.tips;
+    }
+
+    var url = localhostPath + '/Dashboard/api/metroEquip/status/false?machines='+param_eqiup
+            +'&startTime='+ parseDateString(timeScale.beginTime,'-',':').valueOf()
+            +'&endTime='+ parseDateString(timeScale.endTime,'-',':').valueOf();
+
+
+    ajaxRequest(url,'GET','JSON',function(data){
+
+        $('#div_equipment_status').remove();
+        var new_stat = $(document.createElement('li'));
+        new_stat.attr('id','div_equipment_status');
+        new_stat.css('border','0px').css('width','835px').css('height','200px').css('padding-top','10px');
+        new_stat.insertBefore($('#status_signs'));
+
+        var series = [];
+        var statusDivs = [];
+        $.each(data, function(i, elem){
+            series.push({
+                name:elem.equipmentName,
+                currentState:elem.currentStatus,
+                data:elem.machinesDailyList
+            });
+        });
+
+        var machineStatusColor = {
+            'Productive':'#02d216',
+            'NonScheduled':'#ff2dd0',
+            'Standby':'yellow',
+            'Engineering':'blue',
+            'ScheduledDown':'#fb9c9c',
+            'UnscheduledDown':'red'
+        };
+
+        var options = {
+            startD:timeScale.beginTime,
+            endD:timeScale.endTime,
+            lineColor: '#df8505',
+            textColor: '#0E1570',
+            maxBarCount: 4,
+            majorTicks: 1,
+            machineSeries : series,
+            machineStatusColor:machineStatusColor,
+            dataProperties: {
+                dataSource: url,
+                timeInterval: 30 // seconds
+            }
+        };
+
+        var liStatusChart = $('#div_item_status');
+        var div_equipment_status = $('#div_equipment_status');
+
+        liStatusChart.empty();
+        var svgStatus = div_equipment_status.equipTimeLine(div_equipment_status,options);
+        div_equipment_status.css('padding','2px 2px 2px 2px');
+
+
+        var background_status = svgStatus.children(':nth-child(1)');
+
+
+        var status_circles = svgStatus.children(':nth-child(1)').children();
+        var single_height;
+
+        var paddingY;
+
+        var cy1 = 0;
+        var cy2 = 0;
+        var topY = 0;
+
+        if(status_circles.length === 1) {
+            paddingY = parseFloat($(status_circles[0]).attr('cy'))
+                    - parseFloat($(status_circles[0]).attr('r'));
+            single_height = 2 * parseFloat($(status_circles[0]).attr('r'));
+            topY = parseFloat($(status_circles[0]).attr('cy')) - parseFloat($(status_circles[0]).attr('r'));
+        } else {
+            $.each(status_circles,function(i, circle){
+//                console.log(circle);
+                if(i === 0) {
+                    cy1 = parseFloat($(circle).attr('cy'));
+                    topY = cy1 - parseFloat($(circle).attr('r'));
+                } else {
+                    cy2 = parseFloat($(circle).attr('cy'));
+                    paddingY = (cy2 - cy1 - 2 * parseFloat($(circle).attr('r')));
+                    single_height = 2 * parseFloat($(status_circles[0]).attr('r'));
+                    cy1 = cy2;
+                }
+            });
+        }
+        svgStatus.appendTo(liStatusChart);
+        // Add resource items
+
+        $('#other_tbl').empty();
+        var css_item_others;
+        css_item_others = {'line-height': single_height + 'px','height':single_height}
+        $.each(machinesStepMap[title].machines, function(i, elem){
+            var resource = $(document.createElement('li'));
+
+            if(i === 0) {
+                css_item_others['margin'] = (topY+1) + 'px 0px ' + ((paddingY/2) + 1) + 'px 0px';
+            } else if(i === machinesStepMap[title].machines.length - 1) {
+                css_item_others['margin'] = (paddingY/2) + 'px 0px ' + (topY+1) + 'px 0px';
+            } else {
+                css_item_others['margin'] = (paddingY/2) + 'px 0px ' + (paddingY/2)+ 'px 0px';
+            }
+            resource.attr('class','item_others');
+            resource.css(css_item_others);
+            resource.html(elem+'');
+            resource.appendTo('#other_tbl');
+            $(document.createElement('li')).attr('class', 'item_others').attr('id','percentage_' + elem)
+                    .css(css_item_others)
+                    .html('&nbsp;').appendTo('#other_tbl');
+            $(document.createElement('li')).attr('class', 'item_others').attr('id','act_target_' + elem)
+                    .css(css_item_others)
+                    .html('&nbsp;').appendTo('#other_tbl');
+        });
+
+        var liCurrentSum = $(document.createElement('li'));
+        liCurrentSum.attr('class','item_others');
+        liCurrentSum.css(css_item_others).css('font-size','22px');
+        liCurrentSum.html('Summary');
+        liCurrentSum.appendTo('#other_tbl');
+
+        $(document.createElement('li')).attr('class', 'item_others').attr('id','summary_percentage')
+                .css(css_item_others).html('&nbsp;').appendTo('#other_tbl');
+        $(document.createElement('li')).attr('class', 'item_others').attr('id','summary_target_act')
+                .css(css_item_others).html('&nbsp;').appendTo('#other_tbl');
+        // /equipStep/dtDaily/shiftSummary/
+        // url = localhostPath + '/Dashboard/api/equipStep/dtDaily/currentShift/' + title;
+        url = localhostPath + '/Dashboard/api/equipStep/dtDaily/shiftSummary/' + title
+                +'?startTime='+ parseDateString(timeScale.beginTime,'-',':').valueOf()
+                +'&endTime='+ parseDateString(timeScale.endTime,'-',':').valueOf();
+        ajaxRequest(url,'get','JSON',function(data){
+            var totalActualOp = 0;
+            var totalTarget = 0;
+            $.each(data, function(i, elem){
+                if($('#percentage_'+elem.Resource)) {
+                    totalActualOp += parseFloat(elem.ActualOp);
+                    totalTarget += parseFloat(elem.Target);
+
+                    var d = parseFloat(parseFloat(elem.ActualOp)/parseFloat(elem.Target) * 100).toFixed(2);
+                    // background color : >0 green =0 red
+                    if(d >= 80) {
+                        $('#percentage_'+elem.Resource)
+                                .css({'background-color':'#02d216'
+                                    ,'color':'white'
+                                    ,'margin-right':'0.5px'})
+                                .html(d + '%');
+                        $('#act_target_'+elem.Resource)
+                                .css({'background-color':'#02d216',
+                                    'color':'white'
+                                    ,'margin-left':'0.5px'})
+                                .html(elem.ActualOp + '/' + elem.Target);
+                    } else {
+                        $('#percentage_'+elem.Resource)
+                                .css({'background-color':'#FF4500',
+                                    'color':'white'
+                                    ,'margin-right':'0.5px'}
+                        )
+                                .html(d + '%');
+                        $('#act_target_'+elem.Resource)
+                                .css({'background-color':'#FF4500',
+                                    'color':'white'
+                                    ,'margin-left':'0.5px'})
+                                .html(elem.ActualOp + '/' + elem.Target);
+                    }
+                }
+
+            });
+            var ds = parseFloat(parseFloat(totalActualOp)/parseFloat(totalTarget) * 100).toFixed(2);
+
+            if(ds >= 80) {
+                $('#summary_percentage')
+                        .css({'background-color':'#02d216'
+                            ,'color':'white'
+                            ,'margin-right':'0.5px'})
+                        .html(ds  + '%');
+                $('#summary_target_act')
+                        .css({'background-color':'#02d216',
+                            'color':'white'
+                            ,'margin-left':'0.5px'})
+                        .html(totalActualOp + '/' + totalTarget);
+            } else {
+                $('#summary_percentage')
+                        .css({'background-color':'#FF4500',
+                            'color':'white'
+                            ,'margin-right':'0.5px'}
+                ).html(ds + '%');
+                $('#summary_target_act')
+                        .css({'background-color':'#FF4500',
+                            'color':'white'
+                            ,'margin-left':'0.5px'})
+                        .html(totalActualOp + '/' + totalTarget);
+            }
+            // TODO Total
+        });
+    });
+}
+
+
+function showWIPAndOutputChart(title,machinesStepMap,now, date, shift) {
+
+
+    var timeScale = defineTimeScale(now, date, shift);
+    if(timeScale.tips !== 'GET!') {
+        return timeScale.tips;
+    }
+
+    var url = localhostPath + '/Dashboard/api/equipStep/dtDaily/' + title
+            +'?startTime='+ parseDateString(timeScale.beginTime,'-',':').valueOf()
+            +'&endTime='+ parseDateString(timeScale.endTime,'-',':').valueOf()
+            +'&shift=' + shift;
+    var overLayOptions = {
+        message:"retrieving data..",
+        theme:"sk-rect"
+        ,backgroundColor:"#41A69A"
+    };
+    HoldOn.open(overLayOptions);
+    ajaxRequest(url,'get','JSON',function(data){
+
+        $("#div_equipment_chart_MTW").remove();
+        var new_mtw = $(document.createElement('li'));
+        new_mtw.attr('id','div_equipment_chart_MTW');
+        new_mtw.css('border','0px').css('width','890px').css('height','450px').css('margin-left','12px');
+        new_mtw.appendTo($('#ul_wip_output'));
+
+        var series = [];
+        var mCodes_size = machinesStepMap[title].mCode.length;
+        $.each(data, function(i, elem){
+
+            elem['Target'] = elem['Target'] * machinesStepMap[title].machines.length
+                    / (mCodes_size > 1 ? mCodes_size : 1) ;
+
+        });
+
+        if(shift === 'Night') {
+            $.each(data, function(i, elem){
+                if(parseInt(elem['Hourly']) >= 20) {
+                    var yesterday = new Date(parseDateString(timeScale.endTime,'-',':').valueOf() - 3600 * 24 * 1000);
+                    elem['Hourly'] = yesterday.getDate() + '-' + elem['Hourly'] + ':00';
+                } else {
+                    elem['Hourly'] = parseDateString(timeScale.endTime,'-',':').getDate() + '-' + elem['Hourly'] + ':00';
+                }
+            });
+        } else if (shift === 'Daytime') {
+            $.each(data, function(i, elem){
+                elem['Hourly'] = parseDateString(timeScale.beginTime,'-',':').getDate() + '-' + elem['Hourly'] + ':00';
+            });
+        }
+        series.push({
+            valueField: 'Target',
+            name: 'Target',
+            type: 'area'
+        });
+
+        if(machinesStepMap[title].mCode.length === 1) {
+            var elem = machinesStepMap[title].mCode[0];
+            series.push(
+                    {
+                        valueField: elem+'Output',
+                        type: 'bar',
+                        dashStyle: 'dash',
+                        name: elem +'Output',
+                        color: '#FFDE22'
+                    }
+            );
+            series.push(
+                    {
+                        valueField: elem+'WIP',
+                        name: elem+'WIP',
+                        type: 'line',
+                        color: '#0040FF',
+                        axis: 'secondaryAxis'
+                    }
+            );
+        } else if(machinesStepMap[title].mCode.length === 2){
+            var elem1 = machinesStepMap[title].mCode[0];
+            var elem2 = machinesStepMap[title].mCode[1];
+            series.push(
+                    {
+                        valueField: elem1+'Output',
+                        type: 'bar',
+                        dashStyle: 'dash',
+                        name: elem1 +'Output',
+                        color: 'orange',
+                        point: {
+                            symbol: 'triangleUp'
+                        }
+                    }
+            );
+            series.push(
+                    {
+                        valueField: elem2+'Output',
+                        type: 'bar',
+                        dashStyle: 'dash',
+                        name: elem2 +'Output',
+                        color: 'blue'
+                    }
+            );
+            series.push(
+                    {
+                        valueField: elem1+'WIP',
+                        name: elem1+'WIP',
+                        type: 'line',
+                        color: '#FFE851',
+                        axis: 'secondaryAxis'
+                    }
+            );
+            series.push(
+                    {
+                        valueField: elem2+'WIP',
+                        name: elem2+'WIP',
+                        type: 'line',
+                        color: '#6000DD',
+                        axis: 'secondaryAxis'
+                    }
+            );
+        } else {
+            //TODO
+        }
+
+
+        $("#div_equipment_chart_MTW").dxChart({
+            dataSource: data,
+            commonSeriesSettings: {
+                argumentField: 'Hourly',
+                axis: 'primaryAxis'
+            },
+            series:series,
+            valueAxis: [
+                {
+                    name: 'primaryAxis',
+                    position: 'left',
+                    title: {
+                        text: machinesStepMap[title].output + ' Output',
+                        font: { size: 16 }
+                    }
+                },
+                {
+                    name: 'secondaryAxis',
+                    title: {
+                        text: machinesStepMap[title].wip + ' WIP',
+                        font: { size: 16 }
+                    },
+                    position: 'right'
+                }
+            ],
+            legend: {
+                margin :3,
+                verticalAlignment: 'bottom',
+                horizontalAlignment: 'center',
+                paddingTopBottom:2,
+                visible: true,
+                border: {
+                    visible: false
+                },
+                font: { size: 10 }
+            }
+        });
+        HoldOn.close();
+    },function(e, jqxhr, settings, exception){
+        HoldOn.close();
+    });
+}
+
+function showDonutLastHourStatus(title) {
+    var url = localhostPath + '/Dashboard/api/equipStep/dtDaily/machineStepStatus/' + title;
+    ajaxRequest(url,'get','JSON',function(data){
+        $('#stauts_content').remove();
+        var newLastStatus = $(document.createElement('div'));
+        newLastStatus.attr('id','stauts_content');
+        newLastStatus.css('border','0px').css('width','100%').css('height','100%').css('margin-left','12px');
+        newLastStatus.appendTo($('#last_hour_status'));
+        var totalCount = 0.001;
+        var holds = 0.001;
+        var qs= 0.001;
+        var inPros= 0.001;
+        var pros= 0.001;
+        $.each(data, function(i, elem){
+            totalCount += parseInt(elem.LotCount) + parseInt(elem.HoldLots);
+            if(elem.SystemState === 'InProcess') {
+                inPros += parseInt(elem.LotCount);
+            } else if (elem.SystemState === 'Queued') {
+                qs += parseInt(elem.LotCount);
+            } else if (elem.SystemState === 'Processed') {
+                pros += parseInt(elem.LotCount);
+            }
+            holds += parseInt(elem.HoldLots);
+        });
+
+        var stepStatus;
+
+        if(totalCount === 0.001
+                && holds === 0.001
+                && qs === 0.001
+                && inPros === 0.001
+                && pros === 0.001) {
+            stepStatus = [
+                {
+                    value: 99.999,
+                    label: 'N/A',
+                    color: '#8A909E'
+                }
+            ];
+
+        } else {
+            if((holds + qs + inPros + pros)/totalCount > 1) {
+                totalCount = holds + qs + inPros + pros;
+            }
+            stepStatus = [
+                {
+                    value: holds/totalCount*100,
+                    label: 'Hold',
+                    color: '#FF3300'
+                },
+                {
+                    value: qs/totalCount*100,
+                    label: 'Queued',
+                    color: '#FFF421'
+                },
+                {
+                    value: inPros/totalCount*100,
+                    label: 'In Process',
+                    color: '#02d216'
+                },
+                {
+                    value: pros/totalCount*100,
+                    label: 'Processed',
+                    color: '#2E7A16'
+                }
+            ];
+        }
+        var svg = $('<svg style="height: 300px;width:500px" id="scottSvg" xmlns="http://www.w3.org/2000/svg"></svg>');
+        var donutSize = 300;
+        var donut = svg.scottDonut(newLastStatus,{
+            donutSize: donutSize,
+            center: {
+                x: donutSize / 2,
+                y: donutSize / 2
+            },
+            radius: donutSize * 0.3 / 1,
+            data: stepStatus
+        });
+
+        donut.startShowAnimation(function(){
+            $('button').attr('disabled', false);
+        });
+    });
+}
+
+</script>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav">
+        <div class="nav_item_logo"><img src="../pic/ats_logo_transparent.gif"/></div>
+        <div class="nav_item">&nbsp;</div>
+        <div class="nav_item">&nbsp;</div>
+        <div class="nav_component">
+            <label>Dept.&nbsp;</label><input id="combo_departments" name="departments" style="width: 100px"/>
+            <label>Title&nbsp;</label><input id="combo_steps" name="steps"/>
+        </div>
+        <!--        <div class="nav_text"><label>From</label></div>
+                <div class="nav_component">
+                    <input id="start_time_box" class="easyui-datetimebox">
+                </div>
+                <div class="nav_text"><label>To</label></div>
+                <div class="nav_component">
+                    <input id="end_time_box" class="easyui-datetimebox">
+                </div>-->
+        <div class="nav_text"><label>Shift:</label></div>
+        <div class="nav_component" style="width:100px">
+            <input id="switch_day_night" style="width:90px;height: 27px">
+        </div>
+        <div class="nav_component">
+            <input id="date_box" type="text">
+        </div>
+    </div>
+
+    <div class="list">
+        <ul class="tbl" id="lastshift_tbl">
+            <li class="title_single">Last Shift Summary</li>
+            <li class="title_item" style="width:50%;">Percentage</li>
+            <li class="title_item" style="width:50%;">ActualOP/Target</li>
+            <li class="title_item" id="last_percentage" style="width:49%;color: white">&nbsp;</li>
+            <li class="title_item" id="last_act_target" style="width:49%;color: white">&nbsp;</li>
+            <li class="content_item">&nbsp;</li>
+            <li class="content_item">Last&nbsp;Hour&nbsp;Status</li>
+            <li class="content_item" id="last_hour_status"></li>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="chart" style="height:500px">
+        <ul class="tbl" id="ul_wip_output">
+            <li class="title_single" id="title_mtw" style="text-align: center">&nbsp;</li>
+
+            <li id="div_equipment_chart_MTW" style="border:0px !important;width: 890px; height:450px;margin-left: 12px;">
+                <!--<div id="div_equipment_chart_MTW"
+                     style="float:left;margin-top:10%;width: 800px; height:250px;position: relative;"></div>-->
+            </li>
+        </ul>
+    </div>
+
+    <div class="list_other">
+        <ul class="tbl" id="other_items">
+            <li class="title_mult">Resource</li>
+            <li class="title_mult">Percentage</li>
+            <li class="title_mult">Actual/Target</li>
+        </ul>
+
+        <ul class="others_tbl" id="other_tbl"></ul>
+    </div>
+
+    <div class="list_current_status">
+        <ul class="tbl">
+            <li class="title_single">Recent&nbsp;Status</li>
+            <li class="item_status" id="div_item_status"></li>
+        </ul>
+    </div>
+
+    <div class="chart" style="height: 270px">
+        <ul class="tbl" id="ul_status">
+            <li class="title_single">
+                <span style="margin-left: 10px;">Historical&nbsp;Status</span>
+            </li>
+            <li class="cell_chart" id="div_equipment_status" style="border:0px !important;width: 835px; height:200px;padding-top:10px">
+            </li>
+            <li class="item_single" id="status_signs" style="border:0px !important;">
+                <div class="status sign_Productive"></div>
+                <div class="status_text">Productive</div>
+                <div class="status sign_NonScheduled"></div>
+                <div class="status_text">NonScheduled</div>
+                <div class="status sign_Standby"></div>
+                <div class="status_text">Standby</div>
+                <div class="status sign_Engineering"></div>
+                <div class="status_text">Engineering</div>
+                <div class="status sign_ScheduledDown"></div>
+                <div class="status_text">ScheduledDown</div>
+                <div class="status sign_UnscheduledDown"></div>
+                <div class="status_text">UnscheduledDown</div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

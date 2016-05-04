@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <!--
+            Other configurations
+            <setting name="autoMappingBehavior" value="PARTIAL"/>
+            <setting name="defaultExecutorType" value="SIMPLE"/>
+            <setting name="defaultStatementTimeout" value="25"/>
+            <setting name="defaultFetchSize" value="100"/>
+            <setting name="safeRowBoundsEnabled" value="false"/>
+            <setting name="mapUnderscoreToCamelCase" value="false"/>
+            <setting name="localCacheScope" value="SESSION"/>
+            <setting name="jdbcTypeForNull" value="OTHER"/>
+        -->
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+
+    <typeAliases>
+        <!--<typeAlias type="com.scott.fu.entity.test="ChemCode"/>
+        <typeAlias type="com.scott.fu.entity.Testias="Observation"/>-->
+        <typeAlias type="com.scott.fu.entity.mes.ProductionOrderHead" alias="ProductionOrderHead" />
+        <typeAlias type="com.scott.fu.entity.mes.ProductionOrderStep" alias="ProductionOrderStep" />
+        <typeAlias type="com.scott.fu.entity.mes.ProductionOrderStepScrap" alias="ProductionOrderStepScrap" />
+        <typeAlias type="com.scott.fu.entity.oee.MachinesDaily" alias="MachinesDaily" />
+        <typeAlias type="com.scott.fu.entity.oee.DevOutput" alias="DevOuput"/>
+        <typeAlias type="com.scott.fu.entity.oee.MaterialTAndMHistory" alias="MaterialTAndMHistory"/>
+
+        <typeAlias type="com.scott.fu.entity.oee.LACTrackOutAndWIP" alias="LACTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.PRFTrackOutAndWIP" alias="PRFTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.QVMTrackOutAndWIP" alias="QVMTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.BFLTrackOutAndWIP" alias="BFLTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.UballTrackOutAndWIP" alias="UballTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.DefluxTrackOutAndWIP" alias="DefluxTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.AVRTrackOutAndWIP" alias="AVRTrackOutAndWIP"/>
+        <typeAlias type="com.scott.fu.entity.oee.DicingTrackOutAndWIP" alias="DicingTrackOutAndWIP"/>
+    </typeAliases>
+</configuration>

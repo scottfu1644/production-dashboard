@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+   <classPathEntry location
+        ="D:\Others\m2\repository\com\microsoft\sqlserver\sqljdbc4\4.0\sqljdbc4-4.0.jar" />
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--<jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+                        connectionURL="jdbc:sqlserver://ccqv100ods.prod.ats.net\ods;Database=CCQ2StagingCustomDB;integratedSecurity=false"
+                        userId="user_CCQ2CustomDB"
+                        password="Cdb201501">
+        </jdbcConnection>-->
+
+        <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+                        connectionURL="jdbc:sqlserver://ccqv102ods.prod.ats.net\ods;Database=PRODUCTIONCUSTOMDB"
+                        userId="user_customDB"
+                        password="CustomDB2015">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.scott.fu.entity" targetProject="D:\Others\Workspaces\Idea\scott-web-test\src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.scott.fu"  targetProject="D:\Others\Workspaces\Idea\scott-web-test\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.scott.fu.dao"
+                             targetProject="D:\Others\Workspaces\Idea\scott-web-test\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--<table schema="test" tableName="Chem_Code" domainObjectName="ChemCode" >
+            <property name="useActualColumnNames" value="false"/>
+            &lt;!&ndash;<generatedKey column="ID" sqlStatement="SQL" identity="true" />
+            <columnOverride column="DATE_FIELD" property="startDate" />
+            <ignoreColumn column="FRED" />&ndash;&gt;
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+        </table>
+        <table schema="test" tableName="Observation" domainObjectName="Observation" >
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="ID" sqlStatement="SQL" identity="true" />
+            &lt;!&ndash;<columnOverride column="DATE_FIELD" property="startDate" />
+            <ignoreColumn column="FRED" />&ndash;&gt;
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+        </table>-->
+
+        <!--<table schema="MES" tableName="T_ProductionOrderHead" domainObjectName="ProductionOrderHead" >
+            <property name="useActualColumnNames" value="false"/>
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+        </table>
+        <table schema="MES" tableName="T_ProductionOrderStep" domainObjectName="ProductionOrderStep" >
+            <property name="useActualColumnNames" value="false"/>
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+            &lt;!&ndash;<generatedKey column="ID" sqlStatement="SQL" identity="true" />
+            <columnOverride column="DATE_FIELD" property="startDate" />
+            <ignoreColumn column="FRED" />&ndash;&gt;
+        </table>
+        <table schema="MES" tableName="T_ProductionOrderStepScrap" domainObjectName="ProductionOrderStepScrap" >
+            <property name="useActualColumnNames" value="false"/>
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+        </table>-->
+        <table schema="OEE" tableName="MachinesDaily" domainObjectName="MachinesDaily" >
+            <property name="useActualColumnNames" value="false"/>
+            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+        </table>
+    </context>
+</generatorConfiguration>

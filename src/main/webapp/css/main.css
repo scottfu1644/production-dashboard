@@ -1,0 +1,149 @@
+
+#container{
+    margin-left: 30px;
+    margin-top: 10px;
+    width:85%;
+    height:150px;
+    float: left;
+}
+body {
+    margin: auto;
+}
+
+#container_charts {
+    margin: auto;
+    height: 55%;
+    width: 95%;
+}
+
+
+#container_frame {
+    margin-left: 30px;
+    height: 40%;
+    width: 90%;
+}
+.div_status {
+    float: left;
+    height: 95%;
+    margin: 1px 5px 5px 5px;
+    text-align: center;
+    width: 2.7%;
+    border-radius: 40px;
+}
+
+.div_status_bar {
+    /*background-color: darkslategray;*/
+    float: left;
+    height: 10%;
+    width: 100%;
+    margin-bottom: 2px;
+}
+.div_left_area{
+    float: left;
+    height:100%;
+    width: 9%;
+    /*background-color: greenyellow;*/
+}
+.div_bar_container {
+    width: 90%;
+    height: 100%;
+    padding:1px 1px 1px 1px;
+    float: left
+}
+.div_switch {
+    float: left;
+    font-size: 10px;
+    height: 27px;
+    margin-left: 88%;
+    margin-top: 15px;
+    width: 80px;
+}
+.div_loader {
+    width: 32px;
+    height: 32px;
+    background: url('../css/icon/Filling%20broken%20ring.gif');
+    /*background-color: #cfdde9 !important;*/
+    background-size:contain;
+    overflow: hidden;
+    display: none;
+    position: absolute;
+    z-index: 200;
+    border-radius: 5px;
+    opacity: 0.5;
+}
+.status_Productive {
+    background-color: greenyellow;
+}
+.status_NonScheduled {
+    background-color: lightpink;
+}
+.status_Standby {
+    background-color: orangered;
+}
+.status_Engineering {
+    background-color: deepskyblue;
+}
+.status_ScheduledDown {
+    background-color: yellow;
+}
+.status_UnscheduledDown {
+    background-color: red;
+}
+.div_img {
+    float: left;
+    margin: 10px auto auto auto;
+    height: auto;
+    width: 100%;
+}
+.div_img img {
+    MAX-WIDTH: 100%!important;
+    HEIGHT: auto!important;
+    width:expression(this.width > 1200 ? "100%" : this.width)!important;
+}
+.div_equip_name {
+    background-color: #ffffff;
+    border-bottom: 1px dotted;
+    border-right: 1px solid;
+    border-top: 1px dotted;
+    float: left;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    width: 15%;
+}
+.div_equip {
+    float: left;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    height: 22%;
+    width: 100%;
+}
+.div_duration {
+    border-bottom: 1px dotted;
+    border-top: 1px dotted;
+    float: left;
+    height: 100%;
+    margin: auto;
+}
+
+
+.div_duration_Productive {
+    background-color: greenyellow;
+}
+.div_duration_NonScheduled {
+    background-color: lightpink;
+}
+.div_duration_Standby {
+    background-color: orangered;
+}
+.div_duration_Engineering {
+    background-color: deepskyblue;
+}
+.div_duration_ScheduledDown {
+    background-color: yellow;
+}
+.div_duration_UnscheduledDown {
+    background-color: red;
+}
+
+

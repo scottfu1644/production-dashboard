@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SVG Donut Chart Demo</title>
+    <style>
+        body {
+            color: #333;
+            background: transparent;
+        }
+
+        .frame {
+            width: 40%;
+            border-radius: 4px;
+            background: #ededed;
+            padding: 20px;
+            margin: 150px auto;
+        }
+
+        body .frame .content h1 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: white;
+            font-weight: 100;
+            text-transform: uppercase;
+        }
+
+        svg {
+            width: 500px;
+            height: 300px;
+        }
+
+        .content {
+            text-align: center;
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src='snap.svg-min.js'></script>
+    <script src="svg-donut-chart.js"></script>
+    <script>
+        $(function() {
+            var stepStatus = [
+                {
+                    value: 0.00001,
+                    label: 'Hold',
+                    color: '#3399FF'
+                },
+                {
+                    value: 30,
+                    label: 'Queued',
+                    color: '#FFC575'
+                },
+                {
+                    value: 70,
+                    label: 'In Process',
+                    color: '#99CC00'
+                },
+                {
+                    value: 0.00001,
+                    label: 'Processed',
+                    color: '#FF3300'
+                }
+            ];
+
+            var svg = $('<svg id="scottSvg" xmlns="http://www.w3.org/2000/svg"></svg>');
+            var _content = $('.content');
+            var donutSize = 300;
+            var donut = svg.scottDonut(_content,{
+                donutSize: donutSize,
+                center: {
+                    x: donutSize / 2,
+                    y: donutSize / 2
+                },
+                radius: donutSize * 0.3 / 1,
+                data: stepStatus
+            });
+
+            donut.startShowAnimation(function(){
+                $('button').attr('disabled', false);
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body>
+<div class="frame">
+    <div class="content">
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
