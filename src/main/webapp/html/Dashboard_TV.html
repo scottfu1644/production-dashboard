@@ -8,10 +8,9 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<!--<meta http-equiv="refresh" content="30">-->
 
 <title></title>
-<link href="../css/common.css" rel="stylesheet" />
+<link href="../css/common_tv.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/bootstrap/easyui.css">
 <link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/icon.css">
 <link href="../css/HoldOn.css" rel="stylesheet">
@@ -37,16 +36,16 @@ var pathName = window.document.location.pathname;
 var curWwwPath = window.document.location.href;
 var pos = curWwwPath.indexOf(pathName);
 var localhostPath = curWwwPath.substring(0, pos);
-var _shift = '';
+var _shift = 'Daytime';
 var _date = '';
 var _combos = [];
 var _mapDT;
 var _combosDT = [];
 var _combos = [];
-var _deptMap;
 var _title,_dept;
 var timer;
 var timer_;
+var _deptMap;
 var Combo = function(id,text,selected) {
     this.id = id;
     this.text = text;
@@ -56,6 +55,8 @@ var Combo = function(id,text,selected) {
 }
 
 $(function(){
+
+
     /*$('#btnOpen').click(function(){
      HoldOn.open(options);
      });
@@ -63,19 +64,21 @@ $(function(){
      HoldOn.close();
      });
      */
+
     $.support.cors = true;
     // initialized step
+
     _title = getURLParameter('title') === null ? 'PRF' : getURLParameter('title');
-    console.log(_title + ">>>>>On load");
     _dept = getURLParameter('dept') === null ? '' : getURLParameter('dept');
     _shift = getURLParameter('shift') === null ? 'Daytime' : getURLParameter('shift');
     _date = getURLParameter('date') === null ? '' : getURLParameter('date');
 
     var urlMap = localhostPath + '/Dashboard/api/equipStep/dtDaily/machinStepMap';
-    var urlDeptStepMap = localhostPath + '/Dashboard/api//equipStep/dtDaily/deptTitleMap';
+    var urlDeptStepMap = localhostPath + '/Dashboard/api/equipStep/dtDaily/deptTitleMap';
 
     ajaxRequest(urlMap,'GET', 'JSON', function(machinesStepMap){
         ajaxRequest(urlDeptStepMap,'GET', 'JSON', function(deptMap){
+            console.log(deptMap);
             _deptMap = deptMap;
 
             var combo;
@@ -98,7 +101,7 @@ $(function(){
 
                 _combosDT.push(combo);
             }
-            for(var key in machinesStepMap) {
+            /*for(var key in machinesStepMap) {
 
                 if(key === _title) {
                     combo = new Combo(key,key,true);
@@ -106,87 +109,12 @@ $(function(){
                     combo = new Combo(key,key);
                 }
                 _combos.push(combo);
-            }
+            }*/
             init(_title,machinesStepMap);
         });
 
     });
 });
-
-//-----------------------refresh screen--------------------------------
-function getURLParameter(name) {
-    return decodeURIComponent(
-            (new RegExp('[?|&]' + name +
-                    '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
-}
-
-function resetTimer(url) {
-   if(!timer) {
-       console.log('!Timer');
-       timer = setInterval(function() {
-            //location.href = url;
-
-       },10 * 1000);
-   } else {
-       console.log('Timer');
-       window.clearInterval(timer);
-       timer = window.setInterval(function() {
-           //location.href = url;
-       },10 * 1000);
-   }
-}
-
-
-function resetTimerPart(title,machinesStepMap) {
-    // Other Chart Timer
-    if(!timer) {
-        console.log('!timer');
-        timer = setInterval(function() {
-            var _now = new Date();
-            //location.href = url;
-            // 1. show status chart
-            showStatusChart(title,machinesStepMap,_now,_date,_shift);
-            // 3. Last shift summary
-            showLastShift(title, machinesStepMap,_now,_date,_shift);
-            // 4. Last Hour Status donut chart
-            showDonutLastHourStatus(title);
-        },10 * 1000);
-    } else {
-        console.log('timer');
-        window.clearInterval(timer_);
-        timer = window.setInterval(function() {
-            var _now = new Date();
-            //location.href = url;
-            // 1. show status chart
-            showStatusChart(title,machinesStepMap,_now,_date,_shift);
-            // 3. Last shift summary
-            showLastShift(title, machinesStepMap,_now,_date,_shift);
-            // 4. Last Hour Status donut chart
-            showDonutLastHourStatus(title);
-        },10 * 1000);
-    }
-    // WIP OUTPut Timer
-    if(!timer_) {
-        console.log('!timer_');
-        timer_ = setInterval(function() {
-            var _now = new Date();
-            //location.href = url;
-            // 2. show WIP & track out Chart
-            showWIPAndOutputChart(title,machinesStepMap,_now,_date,_shift) ;
-        },30 * 1000);
-    } else {
-        console.log('timer_');
-        window.clearInterval(timer);
-        timer_ = window.setInterval(function() {
-            var _now = new Date();
-            //location.href = url;
-            // 2. show WIP & track out Chart
-            showWIPAndOutputChart(title,machinesStepMap,_now,_date,_shift) ;
-        },30 * 1000);
-    }
-}
-
-//-----------------------refresh screen--------------------------------
 
 function init(title,machinesStepMap) {
 
@@ -226,20 +154,14 @@ function init(title,machinesStepMap) {
         textField:'text',
         onSelect: function(option){
             var _title = option.id;
-            console.log(_title + " in combo_steps");
             var _now = new Date();
             // refresh charts
             showStatusChart(_title,machinesStepMap,_now, _date, _shift);
             showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift);
             showLastShift(_title,machinesStepMap,_now,_date,_shift);
             showDonutLastHourStatus(_title);
-            /*var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
-                    + _title +'&date='
-                    +_date + '&shift='
-                    +_shift;
-            console.log(url)
-            resetTimer(url);*/
-            resetTimerPart(_title,machinesStepMap);
+
+	    resetTimerPart(_title,machinesStepMap);
         }
     });
 
@@ -262,6 +184,7 @@ function init(title,machinesStepMap) {
 
                 _combos.push(newCombo);
             });
+            console.log(_combos);
             step.combobox('clear').combobox({
                 data:_combos,
                 valueField:'id',
@@ -270,19 +193,16 @@ function init(title,machinesStepMap) {
                     if(opt.id != '----') {
                         var _now = new Date();
                         var _title = opt.id;
-                        console.log(_title + " in combo_steps clear..");
                         showStatusChart(_title,machinesStepMap,_now, _date, _shift);
                         showWIPAndOutputChart(_title,machinesStepMap,_now, _date, _shift);
                         showLastShift(_title,machinesStepMap,_now,_date,_shift);
                         showDonutLastHourStatus(_title);
-
-                        /*var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
+                        /*var url = localhostPath + '/Dashboard/html/Dashboard_TV2.html?title='
                             + _title +'&date='
                             +_date + '&shift='
                             +_shift;
-                        console.log(url)
                         resetTimer(url);*/
-                        resetTimerPart(_title,machinesStepMap);
+			resetTimerPart(_title,machinesStepMap);
                     }
                 }
             });
@@ -317,21 +237,14 @@ function init(title,machinesStepMap) {
             showLastShift(_title, machinesStepMap,_now,_date,_shift);
 
             showDonutLastHourStatus(_title);
-
-            /*var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
-                    + _title +'&date='
-                    +_date + '&shift='
-                    +_shift;
-            console.log(url);
-            resetTimer(url);*/
-            resetTimerPart(_title,machinesStepMap);
+	    resetTimerPart(_title,machinesStepMap);
 
         }
     });
     $('.switchbutton-on').css(_on_style);
     $('.switchbutton-off').css(_off_style);
 
-
+/*$('#date_box').css("display","none");
     $('#date_box').datebox({
         onSelect: function(date){
             var _selectDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
@@ -347,17 +260,10 @@ function init(title,machinesStepMap) {
             showLastShift(_title, machinesStepMap,_now,_date,_shift);
 
             showDonutLastHourStatus(_title);
-
-            /*var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
-                    + _title +'&date='
-                    +_date + '&shift='
-                    +_shift;
-            console.log(url)
-            resetTimer(url);*/
             resetTimerPart(_title,machinesStepMap);
 
         }
-    });
+    });*/
 
     // 1. show status chart
     showStatusChart(title,machinesStepMap,_now,_date,_shift);
@@ -367,13 +273,8 @@ function init(title,machinesStepMap) {
     showLastShift(title, machinesStepMap,_now,_date,_shift);
     // 4. Last Hour Status donut chart
     showDonutLastHourStatus(title);
+    //resetTimerPart(_title,machinesStepMap);
 
-    /*var url = localhostPath + '/Dashboard/html/Dashboard.html?title='
-            + title +'&date='
-            +_date + '&shift='
-            +_shift;
-    resetTimer(url);*/
-//    resetTimerPart(_title,machinesStepMap);
 }
 
 function showLastShift(title,machinesStepMap,_now,_date,_shift) {
@@ -412,13 +313,89 @@ function showLastShift(title,machinesStepMap,_now,_date,_shift) {
         }
     });
 }
+
+//-----------------------refresh screen--------------------------------
+function getURLParameter(name) {
+    return decodeURIComponent(
+            (new RegExp('[?|&]' + name +
+                    '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+}
+
+function resetTimer(url) {
+   if(!timer) {
+       console.log('!Timer');
+       timer = setInterval(function() {
+            //location.href = url;
+
+       },10 * 1000);
+   } else {
+       console.log('Timer');
+       window.clearInterval(timer);
+       timer = window.setInterval(function() {
+           //location.href = url;
+       },10 * 1000);
+   }
+}
+
+
+function resetTimerPart(title,machinesStepMap) {
+    // Other Chart Timer
+    if(!timer) {
+        console.log('!timer');
+        timer = setInterval(function() {
+            var _now = new Date();
+            //location.href = url;
+            // 1. show status chart
+            showStatusChart(title,machinesStepMap,_now,_date,_shift);
+            // 3. Last shift summary
+            showLastShift(title, machinesStepMap,_now,_date,_shift);
+            // 4. Last Hour Status donut chart
+            showDonutLastHourStatus(title);
+        },10 * 60 * 1000);
+    } else {
+        console.log('timer');
+        window.clearInterval(timer_);
+        timer = window.setInterval(function() {
+            var _now = new Date();
+            //location.href = url;
+            // 1. show status chart
+            showStatusChart(title,machinesStepMap,_now,_date,_shift);
+            // 3. Last shift summary
+            showLastShift(title, machinesStepMap,_now,_date,_shift);
+            // 4. Last Hour Status donut chart
+            showDonutLastHourStatus(title);
+        },10 * 60 * 1000);
+    }
+    // WIP OUTPut Timer
+    if(!timer_) {
+        console.log('!timer_');
+        timer_ = setInterval(function() {
+            var _now = new Date();
+            //location.href = url;
+            // 2. show WIP & track out Chart
+            showWIPAndOutputChart(title,machinesStepMap,_now,_date,_shift) ;
+        },30 * 60 * 1000);
+    } else {
+        console.log('timer_');
+        window.clearInterval(timer);
+        timer_ = window.setInterval(function() {
+            var _now = new Date();
+            //location.href = url;
+            // 2. show WIP & track out Chart
+            showWIPAndOutputChart(title,machinesStepMap,_now,_date,_shift) ;
+        },30 * 60 * 1000);
+    }
+}
+
+//-----------------------refresh screen--------------------------------
+
+
 function showStatusChart(title, machinesStepMap, now, date, shift) {
     var param_eqiup = '';
     $("#title_mtw").html(title + '&nbsp;Hourly&nbsp;Output&nbsp;&&nbsp;WIP');
     $.each(machinesStepMap[title].machines, function(i, elem){
         param_eqiup+=elem+','
     });
-    console.log(date +'.........in status chart');
     var timeScale = defineTimeScale(now, date, shift);
     if(timeScale.tips !== 'GET!') {
         return timeScale.tips;
@@ -434,7 +411,7 @@ function showStatusChart(title, machinesStepMap, now, date, shift) {
         $('#div_equipment_status').remove();
         var new_stat = $(document.createElement('li'));
         new_stat.attr('id','div_equipment_status');
-        new_stat.css('border','0px').css('width','835px').css('height','200px').css('padding-top','10px');
+        new_stat.css('border','0px').css('width','695px').css('height','190px').css('padding-top','10px');
         new_stat.insertBefore($('#status_signs'));
 
         var series = [];
@@ -644,7 +621,7 @@ function showWIPAndOutputChart(title,machinesStepMap,now, date, shift) {
         $("#div_equipment_chart_MTW").remove();
         var new_mtw = $(document.createElement('li'));
         new_mtw.attr('id','div_equipment_chart_MTW');
-        new_mtw.css('border','0px').css('width','890px').css('height','450px').css('margin-left','12px');
+        new_mtw.css('border','0px').css('width','745px').css('height','300px').css('margin-left','12px');
         new_mtw.appendTo($('#ul_wip_output'));
 
         var series = [];
@@ -756,14 +733,14 @@ function showWIPAndOutputChart(title,machinesStepMap,now, date, shift) {
                     position: 'left',
                     title: {
                         text: machinesStepMap[title].output + ' Output',
-                        font: { size: 16 }
+                        font: { size: 13 }
                     }
                 },
                 {
                     name: 'secondaryAxis',
                     title: {
                         text: machinesStepMap[title].wip + ' WIP',
-                        font: { size: 16 }
+                        font: { size: 13 }
                     },
                     position: 'right'
                 }
@@ -777,7 +754,7 @@ function showWIPAndOutputChart(title,machinesStepMap,now, date, shift) {
                 border: {
                     visible: false
                 },
-                font: { size: 10 }
+                font: { size: 9 }
             }
         });
         HoldOn.close();
@@ -792,7 +769,7 @@ function showDonutLastHourStatus(title) {
         $('#stauts_content').remove();
         var newLastStatus = $(document.createElement('div'));
         newLastStatus.attr('id','stauts_content');
-        newLastStatus.css('border','0px').css('width','100%').css('height','100%').css('margin-left','12px');
+        newLastStatus.css('border','0px').css('width','50%').css('height','50%').css('margin-left','100px');
         newLastStatus.appendTo($('#last_hour_status'));
         var totalCount = 0.001;
         var holds = 0.001;
@@ -854,7 +831,7 @@ function showDonutLastHourStatus(title) {
             ];
         }
         var svg = $('<svg style="height: 300px;width:500px" id="scottSvg" xmlns="http://www.w3.org/2000/svg"></svg>');
-        var donutSize = 300;
+        var donutSize = 150;
         var donut = svg.scottDonut(newLastStatus,{
             donutSize: donutSize,
             center: {
@@ -879,8 +856,8 @@ function showDonutLastHourStatus(title) {
     <div class="nav">
         <div class="nav_item_logo"><img src="../pic/ats_logo_transparent.gif"/></div>
         <div class="nav_item">&nbsp;</div>
-        <div class="nav_item">&nbsp;</div>
-        <div class="nav_component">
+        <!--<div class="nav_item">&nbsp;</div>-->
+	<div class="nav_component">
             <label>Dept.&nbsp;</label><input id="combo_departments" name="departments" style="width: 100px"/>
             <label>Title&nbsp;</label><input id="combo_steps" name="steps"/>
         </div>
@@ -897,7 +874,7 @@ function showDonutLastHourStatus(title) {
             <input id="switch_day_night" style="width:90px;height: 27px">
         </div>
         <div class="nav_component">
-            <input id="date_box" type="text">
+            <!--<input id="date_box" type="text">-->
         </div>
     </div>
 
@@ -910,17 +887,18 @@ function showDonutLastHourStatus(title) {
             <li class="title_item" id="last_act_target" style="width:49%;color: white">&nbsp;</li>
             <li class="content_item">&nbsp;</li>
             <li class="content_item">Last&nbsp;Hour&nbsp;Status</li>
+	    <li class="content_item">&nbsp;</li>
             <li class="content_item" id="last_hour_status"></li>
             </li>
         </ul>
     </div>
 
 
-    <div class="chart" style="height:500px">
+    <div class="chart" style="height:350px">
         <ul class="tbl" id="ul_wip_output">
             <li class="title_single" id="title_mtw" style="text-align: center">&nbsp;</li>
 
-            <li id="div_equipment_chart_MTW" style="border:0px !important;width: 890px; height:450px;margin-left: 12px;">
+            <li id="div_equipment_chart_MTW" style="">
                 <!--<div id="div_equipment_chart_MTW"
                      style="float:left;margin-top:10%;width: 800px; height:250px;position: relative;"></div>-->
             </li>
@@ -928,7 +906,7 @@ function showDonutLastHourStatus(title) {
     </div>
 
     <div class="list_other">
-        <ul class="tbl" id="other_items">
+        <ul class="tbl" id="other_items" style="height:25px">
             <li class="title_mult">Resource</li>
             <li class="title_mult">Percentage</li>
             <li class="title_mult">Actual/Target</li>
@@ -949,7 +927,7 @@ function showDonutLastHourStatus(title) {
             <li class="title_single">
                 <span style="margin-left: 10px;">Historical&nbsp;Status</span>
             </li>
-            <li class="cell_chart" id="div_equipment_status" style="border:0px !important;width: 835px; height:200px;padding-top:10px">
+            <li class="cell_chart" id="div_equipment_status" style="border:0px !important;width: 700px; height:150px;padding-top:10px">
             </li>
             <li class="item_single" id="status_signs" style="border:0px !important;">
                 <div class="status sign_Productive"></div>
