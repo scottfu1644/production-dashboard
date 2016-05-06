@@ -320,6 +320,7 @@ function getURLParameter(name) {
             (new RegExp('[?|&]' + name +
                     '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
 }
+/*
 
 function resetTimer(url) {
    if(!timer) {
@@ -336,6 +337,7 @@ function resetTimer(url) {
        },10 * 1000);
    }
 }
+*/
 
 
 function resetTimerPart(title,machinesStepMap) {
