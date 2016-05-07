@@ -1,31 +1,61 @@
-<p>The Protocol {0} was opened at {1} by {2}.</p> <p>Please verify the Protocol information below:</p> <br/>
-<table style="border: 1px">
-<tr>
-    <td>Protocol Instance:</td>
-    <td><b>{3}</b></td>
-<tr>
-    <td>System:</td>
-    <td><b>{4}</b></td>
-<tr>
-    <td>Resource:</td>
-    <td><b>{5}</b></td>
-<tr>
-    <td>Area:</td>
-    <td><b>{6}</b></td>
-<tr>
-    <td>Facility:</td>
-    <td><b>{7}</b></td>
-<tr>
-    <td>Flow:</td>
-    <td><b>{8}</b></td>
-<tr>
-    <td>Product:</td>
-    <td><b>{9}</b></td>
-<tr>
-    <td>Step:</td>
-    <td><b>{10}</b></td>
-</tr>
-<tr>
-<TD>Some Text</TD>
-<TD>Some Text</TD>
-<tr/></table>
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10;" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+
+<title></title>
+<link href="../css/common_tv.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/bootstrap/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/jq_easy_ui/themes/icon.css">
+<link href="../css/HoldOn.css" rel="stylesheet">
+
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/jq_easy_ui/jquery.easyui.min.js"></script>
+
+<script src="../js/svgChart/snap.svg-min.js"></script>
+<script src="../js/svgChart/svg-donut-chart.js"></script>
+
+<script type="text/javascript" src="../js/local.js"></script>
+<script type="text/javascript" src="../js/timeline.js"></script>
+<script type="text/javascript" src="../js/json2.js"></script>
+<script type="text/javascript" src="../js/HoldOn.js"></script>
+
+<script type="text/javascript" src="../js/dx/globalize/globalize.js"></script>
+<script type="text/javascript" src="../js/dx/dx.chartjs.js"></script>
+<script type="text/javascript" src="../js/dx/dx.webappjs.js"></script>
+
+<script type="text/javascript">
+
+var pathName = window.document.location.pathname;
+var curWwwPath = window.document.location.href;
+var pos = curWwwPath.indexOf(pathName);
+var localhostPath = curWwwPath.substring(0, pos);
+var _shift = 'Daytime';
+var _date = '';
+var _combos = [];
+var _mapDT;
+var _combosDT = [];
+var _combos = [];
+var _title,_dept = 'plating';
+var timer;
+var timer_;
+var title_current;
+
+var title_switch = {'plating':{'PRF':true, 'QVM':false}};
+
+var _deptMap;
+$(function(){
+   console.log(title_switch[_dept]['PRF']);
+});
+</script>
+</head>
+<body>
+
+</body>
+</html>
