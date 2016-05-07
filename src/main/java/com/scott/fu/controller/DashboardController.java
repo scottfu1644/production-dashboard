@@ -34,46 +34,6 @@ public class DashboardController {
     @Autowired
     private PresentationService presentationService;
 
-    /*@RequestMapping(value = "/prodOrd/steps/{lotName}", method = RequestMethod.GET,
-            headers = "Accept=application/json")
-    public
-    @ResponseBody
-    List<ProductionOrderStep>
-    getProductionOrderStepByLotName(@PathVariable String lotName) {
-        System.out.println("step in method getProductionOrderStepByLotName..");
-        List<ProductionOrderStep> productionOrderSteps
-                = presentationService.getProductionOrderStepByLotName(lotName);
-        return productionOrderSteps;
-    }
-
-    @RequestMapping(value = "/prodOrd/head/{lotName}", method = RequestMethod.GET,
-            headers = "Accept=application/json")
-    public
-    @ResponseBody
-    List<ProductionOrderHead>
-    getProductionOrderHeadByLotName(@PathVariable String lotName) {
-        List<ProductionOrderHead> productionOrderSteps
-                = presentationService.getProductionOrderHeads(lotName);
-        return productionOrderSteps;
-    }
-
-    @RequestMapping(value = "/prodOrd/headStep/{lotName}", method = RequestMethod.GET,
-            headers = "Accept=application/json")
-    public
-    @ResponseBody
-    List<ProductionOrderHead>
-    getDataForDNVTNVMetro(@PathVariable String lotName) {
-        List<ProductionOrderHead> orderHeadFetchedSteps
-                = presentationService.getProductionOrderHeadFetchStep(lotName);
-
-        for (ProductionOrderHead productionOrderHead : orderHeadFetchedSteps) {
-            List<ProductionOrderStep> fetchedSteps = productionOrderHead.getStepList();
-            for (ProductionOrderStep productionOrderStep : fetchedSteps) {
-//                productionOrderStep.get
-            }
-        }
-        return null;
-    }*/
 
     /**
      *
